@@ -1,6 +1,6 @@
 --=========================TABLE STRUCTURE============================
 --Drop database if exists
-DROP DATABASE bamazon_db IF EXISTS;
+DROP DATABASE IF EXISTS bamazon_db;
 
 --Create database
 CREATE database bamazon_db;
