@@ -1,0 +1,30 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "amazon-lik store",
+  "main": "bamazonCustomer.js",
+  "dependencies": {
+    "console.table": "^0.9.1",
+    "inquirer": "^5.0.0",
+    "mysql": "^2.15.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test this"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ruha-RP/Bamazon.git"
+  },
+  "keywords": [
+    "node",
+    "mysequel",
+    "bamazon"
+  ],
+  "author": "Ruha Peera",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ruha-RP/Bamazon/issues"
+  },
+  "homepage": "https://github.com/Ruha-RP/Bamazon#readme"
+}
