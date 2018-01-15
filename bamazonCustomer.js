@@ -27,10 +27,8 @@ connection.connect(function(err) {
 	readProducts();
 });
 
-//The start function:Displays table, then ask questions
-
+//===============================DISPLAYS STORE CONTENTS================================
 function readProducts() {
-	console.log("Items in Store: \n");
 
 	//READing the database
 	connection.query("SELECT * FROM products", function(err, res) {
@@ -40,25 +38,65 @@ function readProducts() {
 		//checking if the results are logged
 		// console.log("TEST results:\n" + res);
 
+		//gives products information
+		console.log("\nItems available at Bamazon:\n")
+
 		//for loop to go throw the whole table
 		for (var i = 0; i < res.length; i++) {
-			// console.log(res[i].item_id + "||" + res[i].product_name + "||" + res[i].department_name + "||" + res[i].price + "||" + res[i].stock_quantity);
-			tableValues = [
-			[res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]
-			];
+			console.log(res[i].item_id + "||" + res[i].product_name + "||" + res[i].department_name + "||" + res[i].price + "||" + res[i].stock_quantity);
+			// tableValues = [
+			// [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]
+			// ];
 
-			//creating a table
-			console.table(["id", "name", "department", "price", "stock"], tableValues);
+			// //creating a table
+			// console.table(["id", "name", "department", "price", "stock"], tableValues);
 		};
+		console.log("\n");
 
 		//creating a table
 		// console.table(["id", "name", "department", "price", "stock"], tableValues);
+	
+	//calls the next command
+	askAction();
 
 	});
-	//terminating connection
-	connection.end();
 
 };
+
+
+//=====================================COMMUNICATES WITH USER=====================================
+
+//this function asks the user what they want to buy and how many
+
+function askAction() {
+
+	//uses the inquirer package
+	inquirer
+		.prompt([
+		{
+			name:"item",
+			type:"input",
+			message: "What is the ID of the product you'd like to purchase?",
+
+		},
+		{
+			name:"quantity",
+			type:"input",
+			message:"How many would you like to buy?",
+			//this function ensures that a number is input
+			validate: function(value) {
+				if (isNaN(value) === false) {
+					return true;
+				}
+				return false;
+			}
+		}
+		]).then(function(answer) {
+			console.log("TEST: working");
+		})
+
+}
+
 
 
 
