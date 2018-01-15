@@ -21,7 +21,7 @@ connection.connect(function(err) {
 	console.log("Connected as ID: " + connection.threadId);
 	//ending connection
 	connection.end();
-})
+});
 
 
 
