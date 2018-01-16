@@ -126,18 +126,30 @@ function askAction() {
 
 					console.log("Congratulations on your purchase(s)!");
 
+//===========================================UPDATE INVENTORY====================================
+					
+					//creating a new global variable that will hold the new value
+					var updatedStock;
+
+					//the function that minus sold goods from unsold
+					function updateStock() {
+						updatedStock = selectedProductDetails.stock_quantity - answer.quantity;
+					};
+
+					//calling the function
+					updateStock();
+
 
 					//updating the databse to reflect changes
 					connection.query(
 						"UPDATE `bamazon_db`.`products` SET ? WHERE ?",
 						[{
-							stock_quantity: parseInt(answer.quantity)
+							stock_quantity: updatedStock
 						}
 						,{
 							item_id: answer.itemid
 						}]
 					)
-
 
 				}
 
@@ -147,17 +159,18 @@ function askAction() {
 					console.log("Insufficient Quantity!");
 				}
 
+				connection.end();
 				
 			});
 				
-
-			// connection.end();
 
 		});
 
 };
 
-//===========================================UPDATE INVENTORY====================================
+
+
+
 
 
 
