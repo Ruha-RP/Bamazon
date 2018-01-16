@@ -20,6 +20,6 @@ Bamazon works as follows:
 
 
 ## Demo
-![alt text](https://github.com/Ruha-RP/Bamazon/blob/master/Bamzon%20Customer%20demo.gif "Demo Gif")
+![alt text](https://github.com/Ruha-RP/Bamazon/blob/master/Bamzon%20Customer%20new%20demo.gif "Demo Gif")
 
 
