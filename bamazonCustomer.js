@@ -4,6 +4,7 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var table = require("console.table"); 
+var chalk = require("chalk");
 
 //Establishing connection
 var connection = mysql.createConnection ({
@@ -20,7 +21,9 @@ connection.connect(function(err) {
 	if(err) throw err;
 
 	//checking if connected
-	console.log("Connected as ID: " + connection.threadId);
+	// console.log("Connected as ID: " + connection.threadId);
+
+	console.log(chalk.bgYellow("\nWELCOME TO BAMAZON!\n"));
 
 	//reading the table initially
 	readProducts();
@@ -40,18 +43,18 @@ function readProducts() {
 		// console.log("TEST results:\n" + res);
 
 		//gives products information
-		console.log("\nItems available at Bamazon:\n")
+		console.log(chalk.yellow("\nOur Products:\n"));
 
 		//for loop to go throw the whole table
 		for (var i = 0; i < res.length; i++) {
-			console.log(res[i].item_id + "||" + res[i].product_name + "||" + res[i].department_name + "||" + res[i].price + "||" + res[i].stock_quantity);
-			// tableValues = [
-			// [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]
-			// ];
 
+			//displays items to customer
+			console.log(chalk.cyan(res[i].item_id + "||" + res[i].product_name + "||" + res[i].department_name + "||" + res[i].price));
+			
 			// //creating a table
 			// console.table(["id", "name", "department", "price", "stock"], tableValues);
 		};
+
 		console.log("\n");
 
 		//creating a table
@@ -79,7 +82,8 @@ function askAction() {
 			{
 				name:"itemid",
 				type:"input",
-				message: "What is the ID of the product you'd like to purchase?",
+				message:"What is the ID of the product you'd like to purchase?",
+				
 				//this function ensures that a number is input
 				validate: function(value) {
 					if (isNaN(value) === false) {
@@ -91,7 +95,8 @@ function askAction() {
 			{
 				name:"quantity",
 				type:"input",
-				message:"How many would you like to buy?",
+				message: "How many would you like to buy?",
+				
 				//this function ensures that a number is input
 				validate: function(value) {
 					if (isNaN(value) === false) {
@@ -103,7 +108,7 @@ function askAction() {
 			]).then(function(answer) {
 
 				//Checking if its working
-				console.log("TEST: working");
+				// console.log("TEST: working");
 
 //===========================================CORRESPONDING WITH DATABASE====================================
 
@@ -114,17 +119,17 @@ function askAction() {
 				var selectedProductDetails = res[chosenId];
 
 				//checking if it works, output in form of an object
-				console.log(selectedProductDetails);
+				// console.log(selectedProductDetails);
 
 //===========================================PURCHASE CONDITIONS====================================
 
 				//checking if user's quantity input is registered
-				console.log("Quantity selected by customer: " + answer.quantity)
+				// console.log("Quantity selected by customer: " + answer.quantity)
 
 				//An if else statement to check product availability
 				if (answer.quantity <= selectedProductDetails.stock_quantity) {
 
-					console.log("Congratulations on your purchase(s)!");
+					console.log(chalk.magenta("\nCongratulations on your purchase(s)!\n"));
 
 //===========================================UPDATE INVENTORY====================================
 					
@@ -156,7 +161,7 @@ function askAction() {
 				else {
 
 					//informs user about unavailability
-					console.log("Insufficient Quantity!");
+					console.log(chalk.red("Insufficient Quantity!\n"));
 				}
 
 				askAgain();
@@ -168,12 +173,15 @@ function askAction() {
 
 };
 
+//======================================NEXT STEPS=========================================================
+
+//This function asks the user what they want to do after their initial input
 function askAgain() {
 
   inquirer
     .prompt({
       name: "nextSteps",
-      type: "rawlist",
+      type: "list",
       message: "Would you like to continue shopping?",
       choices: ["YES", "NO"]
     })
@@ -181,17 +189,19 @@ function askAgain() {
       
       if (answer.nextSteps.toUpperCase() === "NO") {
 
-        console.log("Hope you had a pleasant experience. Come again soon!");
+        console.log(chalk.yellow("\nHope you had a pleasant experience. Come again soon!\n"));
+
+        //turns off the connection from db
         connection.end();
       }
 
       else {
 
-        askAction();
+      	//the first function is called again
+      	readProducts();
 
-      }
 
-      
+      } 
 
     });
 }

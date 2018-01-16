@@ -4,6 +4,7 @@
   "description": "amazon-lik store",
   "main": "bamazonCustomer.js",
   "dependencies": {
+    "chalk": "^2.3.0",
     "console.table": "^0.9.1",
     "inquirer": "^5.0.0",
     "mysql": "^2.15.0"
