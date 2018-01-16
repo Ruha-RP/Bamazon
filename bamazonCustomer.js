@@ -124,7 +124,18 @@ function askAction() {
 				//An if else statement to check product availability
 				if (answer.quantity <= selectedProductDetails.stock_quantity) {
 
-					console.log("Congratulations on your purchase(s)!")
+					console.log("Congratulations on your purchase(s)!");
+
+
+					//updating the databse to reflect changes
+					connection.query(
+						"UPDATE `bamazon_db`.`products` SET `stock_quantity`='150' WHERE ?",
+						[{
+							item_id: answer.itemid
+						}]
+					)
+
+
 				}
 
 				else {
@@ -142,6 +153,9 @@ function askAction() {
 		});
 
 };
+
+//===========================================UPDATE INVENTORY====================================
+
 
 
 
