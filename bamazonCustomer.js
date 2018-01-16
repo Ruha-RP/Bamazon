@@ -32,6 +32,7 @@ function readProducts() {
 
 	//READing the database
 	connection.query("SELECT * FROM products", function(err, res) {
+
 		//if error occurs
 		if (err) throw err;
 
@@ -70,32 +71,60 @@ function readProducts() {
 
 function askAction() {
 
-	//uses the inquirer package
-	inquirer
-		.prompt([
-		{
-			name:"item",
-			type:"input",
-			message: "What is the ID of the product you'd like to purchase?",
+	connection.query("SELECT * FROM products", function(err,res) {
 
-		},
-		{
-			name:"quantity",
-			type:"input",
-			message:"How many would you like to buy?",
-			//this function ensures that a number is input
-			validate: function(value) {
-				if (isNaN(value) === false) {
-					return true;
+		//uses the inquirer package
+		inquirer
+			.prompt([
+			{
+				name:"itemid",
+				type:"input",
+				message: "What is the ID of the product you'd like to purchase?",
+				//this function ensures that a number is input
+				validate: function(value) {
+					if (isNaN(value) === false) {
+						return true;
+					}
+					return false;
 				}
-				return false;
+			},
+			{
+				name:"quantity",
+				type:"input",
+				message:"How many would you like to buy?",
+				//this function ensures that a number is input
+				validate: function(value) {
+					if (isNaN(value) === false) {
+						return true;
+					}
+					return false;
+				}
 			}
-		}
-		]).then(function(answer) {
-			console.log("TEST: working");
-		})
+			]).then(function(answer) {
 
-}
+				//Checking if its working
+				console.log("TEST: working");
+
+				//obtaining the index (hence the -1) that will extract the product name & other properties
+				var chosenId = answer.itemid - 1;
+
+				//this will assign a variable to contain the customer's product
+				var selectedProductDetails = res[chosenId];
+
+				//checking if it works, output in form of an object
+				console.log(selectedProductDetails);
+				
+			});
+				
+
+			connection.end();
+
+		});
+
+};
+
+//===========================================COMMUNICATION WITH DATABASE====================================
+
 
 
 
