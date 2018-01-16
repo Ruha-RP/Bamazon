@@ -105,6 +105,8 @@ function askAction() {
 				//Checking if its working
 				console.log("TEST: working");
 
+//===========================================CORRESPONDING WITH DATABASE====================================
+
 				//obtaining the index (hence the -1) that will extract the product name & other properties
 				var chosenId = answer.itemid - 1;
 
@@ -113,17 +115,35 @@ function askAction() {
 
 				//checking if it works, output in form of an object
 				console.log(selectedProductDetails);
+
+//===========================================PURCHASE CONDITIONS====================================
+
+				//checking if user's quantity input is registered
+				console.log("Quantity selected by customer: " + answer.quantity)
+
+				//An if else statement to check product availability
+				if (answer.quantity <= selectedProductDetails.stock_quantity) {
+
+					console.log("Congratulations on your purchase(s)!")
+				}
+
+				else {
+
+					//informs user about unavailability
+					console.log("Insufficient Quantity!");
+				}
+
 				
 			});
 				
 
-			connection.end();
+			// connection.end();
 
 		});
 
 };
 
-//===========================================COMMUNICATION WITH DATABASE====================================
+
 
 
 
