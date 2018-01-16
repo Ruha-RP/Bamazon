@@ -129,8 +129,11 @@ function askAction() {
 
 					//updating the databse to reflect changes
 					connection.query(
-						"UPDATE `bamazon_db`.`products` SET `stock_quantity`='150' WHERE ?",
+						"UPDATE `bamazon_db`.`products` SET ? WHERE ?",
 						[{
+							stock_quantity: parseInt(answer.quantity)
+						}
+						,{
 							item_id: answer.itemid
 						}]
 					)
