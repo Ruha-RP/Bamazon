@@ -5,8 +5,6 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 var table = require("console.table"); 
 
-var tableValues;
-
 //Establishing connection
 var connection = mysql.createConnection ({
 	host: "localhost",
@@ -17,14 +15,16 @@ var connection = mysql.createConnection ({
 });
 
 connection.connect(function(err) {
+
 	//throws error if occurs
 	if(err) throw err;
+
 	//checking if connected
 	console.log("Connected as ID: " + connection.threadId);
-	//ending connection
-	// connection.end();
+
 	//reading the table initially
 	readProducts();
+
 });
 
 //===============================DISPLAYS STORE CONTENTS================================
@@ -159,14 +159,44 @@ function askAction() {
 					console.log("Insufficient Quantity!");
 				}
 
-				connection.end();
-				
+				askAgain();
+
 			});
 				
 
 		});
 
 };
+
+function askAgain() {
+
+  inquirer
+    .prompt({
+      name: "nextSteps",
+      type: "rawlist",
+      message: "Would you like to continue shopping?",
+      choices: ["YES", "NO"]
+    })
+    .then(function(answer) {
+      
+      if (answer.nextSteps.toUpperCase() === "NO") {
+
+        console.log("Hope you had a pleasant experience. Come again soon!");
+        connection.end();
+      }
+
+      else {
+
+        askAction();
+
+      }
+
+      
+
+    });
+}
+
+
 
 
 
